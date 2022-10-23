@@ -4,7 +4,12 @@
 
 #include <Keypad.h>
 
-const int analogInputPin = A0;
+const int alarmInput = A0;
+const int alarmButtonInput = 13;
+const int snoozeInput = 12;
+const int photoResistor = 11;
+const int sevenLED = 10;
+int alarmOn = 0;
 
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //four columns
@@ -24,18 +29,41 @@ Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(analogInputPin, INPUT);
+  pinMode(alarmInput, INPUT);
+  pinMode(photoResistor, INPUT);
+
+  pinMode(alarmButtonInput, INPUT);
+  pinMode(snoozeInput, INPUT);
+
+  pinMode(sevenLED, OUTPUT);
 
   Serial.begin(9600);
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  alarmOn = analogRead(analogInputPin);
+  
+  alarmOn = analogRead(alarmInput);
+
+  Serial.println(alarmOn);
 
   char customKey = customKeypad.getKey();
   
-  if (customKey){
-    Serial.println(customKey);
+Serial.println(analogRead(snoozeInput));
+
+  if(analogRead(snoozeInput) > 0)
+  {
+    digitalWrite(sevenLED, HIGH);
+
+    delay(1000);
+  }
+  if(analogRead(alarmButtonInput) > 0)
+  {
+    digitalWrite(sevenLED, HIGH);
+  }
+  if(analogRead(snoozeInput) == 0 && analogRead(alarmButtonInput) == 0)
+  {
+    digitalWrite(sevenLED, LOW);
   }
 }
