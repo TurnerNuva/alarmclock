@@ -4,9 +4,6 @@
 
 #include <Keypad.h>
 
-const int alarmInput = A0;
-const int alarmButtonInput = A1;
-const int snoozeInput = A2;
 const int photoResistor = 11;
 const int sevenLED = 10;
 int alarmOn = 0;
@@ -29,6 +26,7 @@ Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS
 
 void setup() {
   // put your setup code here, to run once:
+  randomSeed(analogRead(0));
   pinMode(alarmInput, INPUT);
   pinMode(photoResistor, INPUT);
 
@@ -42,38 +40,9 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  
-  //alarmOn = analogRead(alarmInput);
+int randomDigit = random(0, 10);
+Serial.println("Press " + customKey);
+if(customKeypad.getKey() == randomDigit)
+  Serial.println("Correct");
 
-  //Serial.println(alarmOn);
-
-  char customKey = customKeypad.getKey();
-  
-  digitalWrite(sevenLED, LOW);
-
-  
-  Serial.print("Alarm button: ");
-  Serial.println(analogRead(alarmButtonInput));
-
-  Serial.print("Snooze button: ");
-  Serial.println(analogRead(snoozeInput));
-  
-  Serial.println();
-
-  delay(1000);
-
-  if(analogRead(snoozeInput) > 0)
-  {
-    digitalWrite(sevenLED, HIGH);
-    
-  }
-  if(analogRead(alarmButtonInput) > 0)
-  {
-    digitalWrite(sevenLED, HIGH);
-  }
-  if(analogRead(snoozeInput) == 0 && analogRead(alarmButtonInput) == 0)
-  {
-    digitalWrite(sevenLED, LOW);
-  }
 }
