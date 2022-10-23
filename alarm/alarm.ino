@@ -5,11 +5,12 @@
 #include <Keypad.h>
 
 const int alarmInput = A0;
-const int alarmButtonInput = 13;
-const int snoozeInput = 12;
+const int alarmButtonInput = A1;
+const int snoozeInput = A2;
 const int photoResistor = 11;
 const int sevenLED = 10;
 int alarmOn = 0;
+int val = 0;
 
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //four columns
@@ -46,11 +47,17 @@ void loop() {
   
   alarmOn = analogRead(alarmInput);
 
-  Serial.println(alarmOn);
+  //Serial.println(alarmOn);
 
   char customKey = customKeypad.getKey();
   
-Serial.println(analogRead(snoozeInput));
+  digitalWrite(sevenLED, LOW);
+
+  val = analogRead(alarmButtonInput);
+
+  Serial.println(val);
+  
+  delay(1000);
 
   if(analogRead(snoozeInput) > 0)
   {
